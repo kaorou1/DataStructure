@@ -25,12 +25,18 @@ public class Array<E> {
         return size;
     }
 
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+
     /**
      * 在指定的Index处插入元素e
      */
     public void add(int index, E e) {
+        //扩容操作
         if (size == data.length) {
-            throw new IllegalArgumentException("array is full");
+            resize(2 * data.length);
         }
 
         if (index < 0 || index >size) {
@@ -56,6 +62,13 @@ public class Array<E> {
      * 移除指定index的元素，并返回该元素
      */
     public E remove(int index) {
+
+        //缩容操作, 采用lazy策略，防止复杂度震荡
+        //data.length最小为2，否则缩容后会产生一个size为0的数组
+        if (size == data.length / 4 && data.length >= 2) {
+            resize(data.length / 2);
+        }
+
         if (index < 0 || index >= size) {
             throw new IllegalArgumentException("the index is illegal, Require index >= 0 and index < size.");
         }
@@ -78,6 +91,25 @@ public class Array<E> {
     }
 
     /**
+     * 查找指定索引的元素
+     */
+    public E get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException("the index is illegal, Require index >= 0 and index < size.");
+        }
+        return data[index];
+
+    }
+
+    public E getFirst() {
+        return get(0);
+    }
+
+    public E getLast() {
+        return get(size-1);
+    }
+
+    /**
      * 将指定位置的元素设置为e
      */
     public void set(int index, E e) {
@@ -88,15 +120,39 @@ public class Array<E> {
     }
 
     /**
+     * 查找指定元素第一个出现位置的下标，没有则返回-1
+     */
+    public int find(E e) {
+        for (int i = 0; i < size; i++) {
+            if (data[i].equals(e)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * 查找指定的元素e是否存在于数组
      */
-    public boolean find(E e) {
-        for (int i = 0; i < data.length; i++) {
+    public boolean contains(E e) {
+        for (int i = 0; i < size; i++) {
             if (data[i].equals(e)) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * 扩容方法
+     */
+    private void resize(int newCapacity) {
+        E[] newData = (E[]) new Object[newCapacity];
+        for (int i = 0; i < size; i++) {
+            newData[i] = data[i];
+        }
+
+        data = newData;
     }
 
     @Override
