@@ -63,11 +63,7 @@ public class Array<E> {
      */
     public E remove(int index) {
 
-        //缩容操作, 采用lazy策略，防止复杂度震荡
-        //data.length最小为2，否则缩容后会产生一个size为0的数组
-        if (size == data.length / 4 && data.length >= 2) {
-            resize(data.length / 2);
-        }
+
 
         if (index < 0 || index >= size) {
             throw new IllegalArgumentException("the index is illegal, Require index >= 0 and index < size.");
@@ -79,6 +75,13 @@ public class Array<E> {
 
         size--;
         data[size] = null;
+
+        //注意放的位置，要在移除元素之后，size--
+        //缩容操作, 采用lazy策略，防止复杂度震荡
+        //data.length最小为2，否则缩容后会产生一个size为0的数组
+        if (size == data.length / 4 && data.length / 2 != 0) {
+            resize(data.length / 2);
+        }
         return data[index];
     }
 
