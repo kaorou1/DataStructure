@@ -47,7 +47,7 @@ public class LinkedListWithDummyHead<E> {
      * 在进行了一次add操作后dummyHead的next就有值了
      */
     public LinkedListWithDummyHead() {
-        dummyHead = new Node();
+        dummyHead = new Node(null, null);
         size = 0;
     }
 
@@ -99,8 +99,125 @@ public class LinkedListWithDummyHead<E> {
         add(e, 0);
     }
 
+    /**
+     * 在链表尾添加元素e
+     */
     public void addLast(E e) {
         add(e, size);
+    }
+
+    /**
+     * 获取指定index位置的元素
+     */
+    public E get(int index) {
+
+        //不能等于size
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException("input index is illegal");
+        }
+
+        //注意起始条件cur为dummyHead.next
+        Node cur = dummyHead.next;
+        for (int i = 0; i < index; i++) {
+            cur = cur.next;
+        }
+        //此时cur已经指向index位置的元素
+        return cur.e;
+    }
+
+    /**
+     * 获取链表头元素
+     */
+    public E getFirst() {
+        return get(0);
+    }
+
+    /**
+     * 获取链表尾元素
+     */
+    public E getLast() {
+        return get(size - 1);
+    }
+
+    /**
+     * 修改index位置处的元素
+     */
+    public void set(E e, int index) {
+        //不能等于size
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException("input index is illegal");
+        }
+
+        //注意起始条件cur为dummyHead.next
+        Node cur = dummyHead.next;
+        for (int i = 0; i < index; i++) {
+            cur = cur.next;
+        }
+        //此时cur已经指向index位置的元素
+        cur.e = e;
+    }
+
+    /**
+     * 查找链表中是否包含某个元素
+     */
+    public boolean contains(E e) {
+//        Node cur = dummyHead.next;
+//        while (cur != null) {
+//            if (e.equals(cur.e)) {
+//                return true;
+//            }
+//            cur = cur.next;
+//        }
+        //for循环的形式
+        for (Node cur = dummyHead.next; cur != null; cur = cur.next) {
+            if (e.equals(cur.e)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    /**
+     * 在指定Index位置删除元素并返回
+     */
+    public E del(int index) {
+
+        //不能等于size，假设size为3，index只能取012
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException("input index is illegal");
+        }
+
+        //需要找到待删除元素的前一个元素prev
+        Node prev = dummyHead;
+        for (int i = 0; i < index; i++) {
+            prev = prev.next;
+        }
+        //prev已经指向前一个元素
+
+        Node delNode = prev.next;
+
+        prev.next = delNode.next;
+        delNode.next = null;
+
+        size--;
+        return delNode.e;
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder linkedSrt = new StringBuilder();
+        Node cur = dummyHead.next;
+        while (cur != null) {
+            linkedSrt.append(cur.e);
+            linkedSrt.append("——>");
+            //开始忘了这个,会导致无限循环，直到溢出
+            cur = cur.next;
+        }
+        linkedSrt.append("null");
+        return linkedSrt.toString();
     }
 
 }
