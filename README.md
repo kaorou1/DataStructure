@@ -4,29 +4,29 @@
 #### 有关for循环的一些小心得
 
 ```java
-    //一共进行了index-1次循环操作
-    for (int i = 0; i <= index; i++) {
-        //do something
-    }
-    
-    //这个用的多
-    //一共进行了index次循环操作
-    for (int i = 0; i < index; i++) {
-        //do something
-    }
-    
-    //不使用虚拟头结点的linkedlist
-    //例如在给指定index插入元素e时，就是要在插入e完后，list.get(index) = e;
-    //在链表实现时，需要获取到index的前一个节点
-    prev = head;
-    for (int i = 0; i < index - 1; i++) {
-        prev = prev.next;
-        //没开始循环前，prev指向index=0的节点（也就是head）
-        //循环1次，prev指向index=1的节点
-        //循环2次，prev指向index=2的节点
-        //...
-        //循环index-1次，prev指向index-1的节点，也就是index位置处的前一个节点
-    }
+//一共进行了index-1次循环操作
+for (int i = 0; i <= index; i++) {
+    //do something
+}
+
+//这个用的多
+//一共进行了index次循环操作
+for (int i = 0; i < index; i++) {
+    //do something
+}
+
+//不使用虚拟头结点的linkedlist
+//例如在给指定index插入元素e时，就是要在插入e完后，list.get(index) = e;
+//在链表实现时，需要获取到index的前一个节点
+prev = head;
+for (int i = 0; i < index - 1; i++) {
+	prev = prev.next;
+    //没开始循环前，prev指向index=0的节点（也就是head）
+    //循环1次，prev指向index=1的节点
+    //循环2次，prev指向index=2的节点
+    //...
+    //循环index-1次，prev指向index-1的节点，也就是index位置处的前一个节点
+}
 ```
 
 
@@ -56,7 +56,17 @@
 
 ---------------
 
-#### 栈
+#### 链表的时间复杂度分析
+
+
+
+#### 栈的数组实现
+
+
+
+#### 栈的链表实现
+
+
 
 #### 数组队列与循环队列
 
